@@ -9,6 +9,7 @@ use std::{
     io::{Read, Write},
     path::{Path, PathBuf},
     str::FromStr,
+    thread,
 };
 
 use anyhow::Result;
@@ -55,6 +56,8 @@ async fn main() -> Result<()> {
 
     std::panic::set_hook(Box::new(|info| {
         error!("Panicked: {:?}", info);
+
+        thread::sleep_ms(1000);
     }));
 
     let quit = CustomMenuItem::new("quit".to_string(), "Quit");
