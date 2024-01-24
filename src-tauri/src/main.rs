@@ -21,7 +21,7 @@ use parser::models::*;
 
 use rusqlite::{params, params_from_iter, Connection};
 use tauri::{
-    api::process::Command, CustomMenuItem, LogicalPosition, LogicalSize, Manager, Position, Size,
+    api::{dialog::blocking::MessageDialogBuilder, process::Command}, CustomMenuItem, LogicalPosition, LogicalSize, Manager, Position, Size,
     SystemTray, SystemTrayEvent, SystemTrayMenu, SystemTrayMenuItem, WindowBuilder,
 };
 use tauri_plugin_window_state::{AppHandleExt, StateFlags, WindowExt};
@@ -55,6 +55,8 @@ async fn main() -> Result<()> {
 
     std::panic::set_hook(Box::new(|info| {
         error!("Panicked: {:?}", info);
+
+        MessageDialogBuilder::new("Panicked", "Application has panicked, more information can be found in loa_logs_rCURRENT.log");
     }));
 
     let quit = CustomMenuItem::new("quit".to_string(), "Quit");
